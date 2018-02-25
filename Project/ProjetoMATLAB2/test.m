@@ -2,10 +2,10 @@ clear all;close all;clc
 
 acorde = zeros(1,13);
 
-for n = 1:200
+for n = 1:300
     
     acorde = zeros(1,13);
-    filename = sprintf('d-minor-test-%d.wav',n);
+    filename = sprintf('d-minor-%d.wav',n);
     
     [y,Fs] = audioread(filename);
     tempofim = length(y);
@@ -26,8 +26,7 @@ for n = 1:200
         magnitude = pks(indexNota);
         
         
-        acorde(index)= magnitudeDB;
-        
+        acorde(index)= magnitudeDB;    
         
         
         
@@ -35,8 +34,8 @@ for n = 1:200
     end
     
     %MUDAR ROTULO DO ACORDE
-    acorde(13) =9;
-    dlmwrite('../test.csv',acorde,'-append','precision','%0.1f');
+    acorde(13) =4;
+    dlmwrite('../dataset2.csv',acorde,'-append','precision','%0.6f');
     %dlmwrite('../dataset.csv',acorde,'-append')
     %acorde
     

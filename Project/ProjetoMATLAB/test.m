@@ -1,9 +1,9 @@
 clear all;close all;clc
 
 locs = zeros(1,13);
-for n = 201:500
+for n = 1:200
     
-    filename = sprintf('c-major-%d.wav',n);
+    filename = sprintf('c%d.wav',n);
     
     [y,Fs] = audioread(filename);
     tempofim = length(y);
@@ -19,7 +19,7 @@ for n = 201:500
     
     %mudar label para cada acorde
     locs(13) = 1;
-    dlmwrite('../test.csv',locs,'-append','precision','%.6f')
+    dlmwrite('../dataset.csv',locs,'-append','precision','%.6f')
     
 end
 

@@ -8,7 +8,7 @@ import pandas as pd
 # Importing the dataset
 
 dataset = pd.read_csv('dataset.csv')
-test = pd.read_csv('test.csv')
+test = pd.read_csv('dataset2.csv')
 X = dataset.iloc[:, 0:12].values
 y = dataset.iloc[:, 12].values
 
@@ -30,7 +30,7 @@ classifier.fit(X, y)
 y_pred = classifier.predict(X_test)
 
 # Making the Confusion Matrix
-label= np.arange(1,14);
+label= np.arange(0,13)
 from sklearn.metrics import confusion_matrix
 cm = confusion_matrix(y_test, y_pred, labels = label)
 
