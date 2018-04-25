@@ -33,7 +33,7 @@ classifier = Sequential()
 classifier.add(Dense(64,  kernel_initializer= 'uniform', activation = 'relu', input_dim = 12))
 
 # Adding the second hidden layer
-classifier.add(Dense(64,  kernel_initializer= 'uniform', activation = 'relu'))
+classifier.add(Dense(16,  kernel_initializer= 'uniform', activation = 'relu'))
 
 
 # Adding the output layer
