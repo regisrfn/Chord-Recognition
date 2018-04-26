@@ -1,51 +1,46 @@
-# K-Nearest Neighbors (K-NN)
-
-# K-Nearest Neighbors (K-NN)
+from sklearn.preprocessing import LabelEncoder
+from sklearn.preprocessing import OneHotEncoder
 
 # Importing the libraries
 import numpy as np
 import matplotlib.pyplot as plt
 import pandas as pd
+from keras.models import model_from_json
 
 # Importing the dataset
 
-dataset = pd.read_csv('dataset.csv')
 test = pd.read_csv('dataset2.csv')
-X_train = dataset.iloc[:, 0:12].values
-y_train = dataset.iloc[:, 12].values
-
 X_test = test.iloc[:, 0:12].values
 y_test = test.iloc[:, 12].values
 
 # Feature Scaling
 from sklearn.preprocessing import StandardScaler
 sc = StandardScaler()
-X_train = sc.fit_transform(X_train)
-X_test = sc.transform(X_test)
+X_test = sc.fit_transform(X_test)
 
-# Importing the Keras libraries and packages
-import keras
-from keras.models import Sequential
-from keras.layers import Dense
-
-# Initialising the ANN
-classifier = Sequential()
-
-# Adding the input layer and the first hidden layer
-classifier.add(Dense(64,  kernel_initializer= 'uniform', activation = 'relu', input_dim = 12))
-
-# Adding the second hidden layer
-classifier.add(Dense(32,  kernel_initializer= 'uniform', activation = 'relu'))
+# integer encode
+label_encoder = LabelEncoder()
+integer_encoded = label_encoder.fit_transform(y_test)
+#print(integer_encoded)
+# binary encode
+onehot_encoder = OneHotEncoder(sparse=False)
+integer_encoded = integer_encoded.reshape(len(integer_encoded), 1)
+onehot_encoded = onehot_encoder.fit_transform(integer_encoded)
+#print(onehot_encoded)
 
 
-# Adding the output layer
-classifier.add(Dense(5,  kernel_initializer= 'uniform', activation = 'softmax'))
+# load json and create model
+json_file = open('model-ann.json', 'r')
+loaded_model_json = json_file.read()
+json_file.close()
+classifier = model_from_json(loaded_model_json)
+# load weights into new model
+classifier.load_weights("model-ann.h5")
+print("Loaded model from disk")
+
 
 # Compiling the ANN
-classifier.compile(optimizer = 'adam', loss = 'sparse_categorical_crossentropy', metrics = ['accuracy'])
-
-# Fitting the ANN to the Training set
-classifier.fit(X_train, y_train, batch_size = 128, epochs = 100)
+classifier.compile(optimizer = 'adam', loss = 'categorical_crossentropy', metrics = ['accuracy'])
 
 # Predicting the Test set results
 y_pred = classifier.predict(X_test)
